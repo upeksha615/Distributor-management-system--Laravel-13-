@@ -25,7 +25,7 @@ return new class extends Migration
             $table->index(['type', 'created_at']);
         });
 
-        // History of scheduled / background tasks (backups, summaries, reminders).
+        // History of scheduled / background tasks (summaries, reminders, housekeeping).
         Schema::create('task_runs', function (Blueprint $table) {
             $table->id();
             $table->string('task', 60);

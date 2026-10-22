@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class EmailBackupScheduleTest extends TestCase
+class EmailAndScheduleTest extends TestCase
 {
     use RefreshDatabase;
 
