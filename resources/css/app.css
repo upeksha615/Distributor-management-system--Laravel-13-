@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[x-cloak] { display: none !important; }
+
+@layer components {
+    .card { @apply bg-white rounded-lg border border-slate-200 shadow-sm; }
+    .card-body { @apply p-5; }
+    .label { @apply block text-sm font-medium text-slate-700 mb-1; }
+    .input { @apply block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200; }
+    .btn { @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-medium border transition cursor-pointer disabled:opacity-50; }
+    .btn-primary { @apply bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700; }
+    .btn-secondary { @apply bg-white border-slate-300 text-slate-700 hover:bg-slate-50; }
+    .btn-danger { @apply bg-white border-red-300 text-red-700 hover:bg-red-50; }
+    .btn-success { @apply bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700; }
+    .btn-sm { @apply px-2.5 py-1 text-xs; }
+    .table { @apply min-w-full text-sm; }
+    .table thead th { @apply bg-slate-50 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 border-b border-slate-200; }
+    .table tbody td { @apply px-3 py-2 border-b border-slate-100 align-top; }
+    .table tbody tr:hover { @apply bg-slate-50; }
+    .num { @apply text-right tabular-nums whitespace-nowrap; }
+    .badge { @apply inline-block rounded-full px-2 py-0.5 text-xs font-medium; }
+    .link { @apply text-indigo-600 hover:underline; }
+    .error { @apply mt-1 text-xs text-red-600; }
+}
+
+@media print {
+    .no-print { display: none !important; }
+    body { background: white !important; }
+    .card { border: none; box-shadow: none; }
+}
