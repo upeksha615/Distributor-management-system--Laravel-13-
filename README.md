@@ -4,29 +4,62 @@ Laravel 13 + MySQL (XAMPP) system for a parts distributor: inventory, purchasing
 
 ## Requirements
 
-- PHP **8.3+** (this machine uses `C:\Program Files\php-8.5.8`). XAMPP's bundled PHP 8.0 / Apache **cannot** run Laravel 13.
-- XAMPP MySQL/MariaDB running (database `distributor`).
-- Node.js (only to rebuild CSS/JS after changing views).
+- PHP **8.3+** with the extensions bcmath, ctype, curl, dom, fileinfo, mbstring, openssl, pdo_mysql, tokenizer, xml, zip.
+  XAMPP's bundled PHP 8.0 **cannot** run Laravel 13 – install PHP 8.3+ separately (e.g. from windows.php.net) and add it to PATH.
+- [Composer](https://getcomposer.org) 2
+- MySQL 8 / MariaDB 10.6+ (XAMPP's MySQL is fine for testing)
+- [Node.js](https://nodejs.org) 20+ (only to build the CSS/JS)
 
-## Run it
+## Install a new copy (after downloading from GitHub)
+
+1. Get the code: GitHub **Code → Download ZIP** (unzip it) or **Open with GitHub Desktop**.
+2. Open a terminal in the project folder and install the libraries:
+   ```bash
+   composer install
+   npm install
+   npm run build
+   ```
+3. Create the settings file and its secret key:
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
+   (on Linux/macOS use `cp .env.example .env`)
+4. Create an empty database, e.g. `distributor` in phpMyAdmin (collation `utf8mb4_unicode_ci`), and put its details in `.env`:
+   `DB_DATABASE=distributor`, `DB_USERNAME=root`, `DB_PASSWORD=` (your MySQL password).
+5. Create the tables and the start-up data (roles, permissions, banks, holidays, a "Main Store" warehouse):
+   ```bash
+   php artisan migrate --seed
+   ```
+6. **Create your own admin user** – you will be asked for name, email and password (the password is not shown while typing):
+   ```bash
+   php artisan user:create-admin
+   ```
+   Answer **yes** when it offers to disable the default `admin@example.com` account. That default account's password
+   (`password`) is published in this repository, so it must never stay active on a real system.
+7. Start the system and log in with the email and password from step 6:
+   ```bash
+   php artisan serve
+   ```
+   Open http://localhost:8000. Then go to **Setup → Settings** (company details), **Setup → Users** (create the other users
+   and their roles) and **Setup → Email settings** (your SMTP server).
+
+Optional sample data for testing only (never on a real system – all demo users have the password `password`):
+```bash
+php artisan db:seed --class=DemoDataSeeder
+```
+
+Forgot the admin password? Run `php artisan user:create-admin` again with the same email to set a new one.
+
+For a production server (Nginx/Apache, HTTPS, cron, permissions) see `docs/Code_Structure_for_Server_Team.pdf`.
+
+## Run it (development)
 
 ```bash
-cd C:\xampp\htdocs\distributor
 php artisan serve
 ```
 
-Open http://localhost:8000 (if port 8000 is busy, `php artisan serve --port=8001`).
-
-## First-time setup / reset
-
-```bash
-php artisan migrate:fresh --seed                 # empty system: admin user + "Main Store" warehouse
-php artisan db:seed --class=DemoDataSeeder       # optional sample products, customers, invoices, payments
-npm install && npm run build                     # after editing views, CSS or JS
-```
-
-Login accounts are created in `database/seeders/DatabaseSeeder.php` (admin) and `DemoDataSeeder.php`
-(manager, sales rep, storekeeper). **Change these passwords (Setup → Users) before real use.**
+Open http://localhost:8000 (if port 8000 is busy, `php artisan serve --port=8001`). After editing views, CSS or JS run `npm run build`.
 
 ## Settings (`.env`)
 
